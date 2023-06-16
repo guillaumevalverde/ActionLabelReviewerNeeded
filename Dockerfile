@@ -1,13 +1,18 @@
-# Container image that runs your code
-FROM alpine:3.10
+FROM debian:9.6-slim
+
+LABEL "com.github.actions.name"="Assignee to reviewer"
+LABEL "com.github.actions.description"="Automatically create review requests based on assignees"
+LABEL "com.github.actions.icon"="arrow-up-right"
+LABEL "com.github.actions.color"="gray-dark"
+
+LABEL version="1.0.4"
+LABEL repository="http://github.com/pullreminders/ActionLabelReviewerNeeded"
+LABEL homepage="http://github.com/pullreminders/ActionLabelReviewerNeeded"
+LABEL maintainer="Guillaume Valverde <guillaume.valverde@gmail.com>"
 
 RUN apt-get update && apt-get install -y \
     curl \
     jq
 
-
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY entrypoint.sh /entrypoint.sh
-
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
+ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
