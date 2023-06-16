@@ -55,4 +55,4 @@ add_label() {
 
 update_review_request 'DELETE' ${listAssigneesWithoutSpace}
 update_review_request 'POST' ${listReviewerWithoutSpace}
-add_label()
+add_label 'POST' 'coucou'
