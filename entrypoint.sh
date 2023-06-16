@@ -19,7 +19,7 @@ fi
 API_HEADER="Accept: application/vnd.github.v3+json; application/vnd.github.antiope-preview+json"
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 
-action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
+//action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$GITHUB_EVENT_PATH")
 assignees=$(jq --raw-output '.pull_request.assignees|map(."login")' "$GITHUB_EVENT_PATH")
@@ -49,7 +49,7 @@ add_label() {
     -H "${AUTH_HEADER}" \
     -H "${API_HEADER}" \
     -X $1 \
-    -d '{"labels":["enhancement"]}'
+    -d '{"labels":["enhancement"]}' \
     "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
 }
 
