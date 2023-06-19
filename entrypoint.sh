@@ -31,35 +31,32 @@ add_label() {
 }
 
 setNumberNeededReviewer() {
-if [[ -z "$MANDATORY_REVIEWER_NUMBER" ]]; then
-  local numberReviewer=2
+if [[ -z ${MANDATORY_REVIEWER_NUMBER+x} ]]; then
+  numberReviewer=2
 else
-  local numberReviewer=$MANDATORY_REVIEWER_NUMBER
+  numberReviewer=$MANDATORY_REVIEWER_NUMBER
 fi
 }
 
 setUpLabel() {
-if [[ -z "$LABEL_FOR_REVIEWER_NEEDED" ]]; then
-  local labelToPost="${LABEL_FOR_REVIEWER_NEEDED}"
-else
-  local labelToPost="REVIEWER NEEDED"
-fi
+  if [[ -z ${LABEL_FOR_REVIEWER_NEEDED+x} ]]; then
+     labelToPost="REVIEWER NEEDED"
+  else
+    labelToPost="${LABEL_FOR_REVIEWER_NEEDED}"
+  fi
 }
 
 
-getNumberNeededReviewer()
-setUpLabel()
-
-if [ "${#reviewers[@]}" -eq "${numberReviewer}" ]; then
-  add_label 'POST' 'coucou'
-fi
-
+setNumberNeededReviewer
+setUpLabel
+echo 'label to post:'$labelToPost
+echo 'number of reviewer: '$numberReviewer', '${listReviewerWithoutSpace}
 
 if [ "${#reviewers[@]}" -gt "${numberReviewer}" ] | [ "${#reviewers[@]}" -eq "${numberReviewer}" ]; then
   echo 'Pr has '${#reviewers[@]}' reviewers, and needs '${numberReviewer}'. All good!'
-  add_label 'POST' '${labelToPost}'
+  #add_label 'POST' '${labelToPost}'
 else
   echo 'Pr only has '${#reviewers[@]}' reviewer(s), but needs '${numberReviewer}'!'
-  add_label 'DELETE' '${labelToPost}'
+  #add_label 'DELETE' '${labelToPost}'
 fi
 
