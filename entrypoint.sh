@@ -18,7 +18,7 @@ action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$GITHUB_EVENT_PATH")
 numReviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")|length' "$GITHUB_EVENT_PATH")
-
+echo $(jq --raw-output '.pull_request' "$GITHUB_EVENT_PATH")
 echo ${reviewers}
 
 listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`
@@ -44,7 +44,7 @@ fi
 
 
 if [[ -z ${LABEL_FOR_REVIEWER_NEEDED+x} ]]; then
-     labelToPost="REVIEWER NEEDED"
+     labelToPost="REVIEWER_NEEDED"
   else
     labelToPost="${LABEL_FOR_REVIEWER_NEEDED}"
 fi
