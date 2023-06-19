@@ -18,8 +18,6 @@ action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$GITHUB_EVENT_PATH")
 
-echo ${reviewers}
-
 listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`                            
 
 add_label() {
@@ -58,7 +56,7 @@ getNumberOfReviewer
 
 echo 'label to post:'$labelToPost
 echo $numReviewers
-echo 'number of reviewer: '$numberReviewer', '${listReviewerWithoutSpace}
+echo 'number of reviewer: '$numReviewers', '${listReviewerWithoutSpace}
 
 if [ "${numReviewers}" -gt "${numberReviewerNeeded}" ] | [ "${numReviewers}" -eq "${numberReviewerNeeded}" ]; then
   echo 'Pr has '${numReviewers}' reviewers, and needs '${numberReviewerNeeded}'. All good!'
