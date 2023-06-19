@@ -36,7 +36,7 @@ add_label() {
       "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
 }
 
-add_label() {
+delete_label() {
   curl -sSL \
       -H "Content-Type: application/json" \
       -H "${AUTH_HEADER}" \
@@ -65,7 +65,7 @@ echo 'number of reviewer: '$numReviewers', '${listReviewerWithoutSpace}
 
 if [ "${numReviewers}" -gt "${numberReviewerNeeded}" ] | [ "${numReviewers}" -eq "${numberReviewerNeeded}" ]; then
   echo 'Pr has '${numReviewers}' reviewers, and needs '${numberReviewerNeeded}'. All good!'
-  add_label ${labelToPost}
+  delete_label ${labelToPost}
 else
   echo 'Pr only has '${numReviewers}' reviewer(s), but needs '${numberReviewerNeeded}'!'
   add_label ${labelToPost}
