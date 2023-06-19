@@ -24,15 +24,25 @@ echo ${reviewers}
 listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`
 
 echo ${listReviewerWithoutSpace}
+echo "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
 
 add_label() {
   curl -sSL \
       -H "Content-Type: application/json" \
       -H "${AUTH_HEADER}" \
       -H "${API_HEADER}" \
-      -X $1 \
-      -d "{\"labels\":[\"$2\"]}" \
+      -X POST \
+      -d "{\"labels\":[\"$1\"]}" \
       "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
+}
+
+add_label() {
+  curl -sSL \
+      -H "Content-Type: application/json" \
+      -H "${AUTH_HEADER}" \
+      -H "${API_HEADER}" \
+      -X DELETE \
+      "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels/$1"
 }
 
 
@@ -55,9 +65,9 @@ echo 'number of reviewer: '$numReviewers', '${listReviewerWithoutSpace}
 
 if [ "${numReviewers}" -gt "${numberReviewerNeeded}" ] | [ "${numReviewers}" -eq "${numberReviewerNeeded}" ]; then
   echo 'Pr has '${numReviewers}' reviewers, and needs '${numberReviewerNeeded}'. All good!'
-  add_label 'DELETE' ${labelToPost}
+  add_label ${labelToPost}
 else
   echo 'Pr only has '${numReviewers}' reviewer(s), but needs '${numberReviewerNeeded}'!'
-  add_label 'POST' ${labelToPost}
+  add_label ${labelToPost}
 fi
 
