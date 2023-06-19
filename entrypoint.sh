@@ -31,7 +31,7 @@ add_label() {
       -H "${AUTH_HEADER}" \
       -H "${API_HEADER}" \
       -X $1 \
-      -d "{\"labels\":[$2]}" \
+      -d "{\"labels\":[\"$2\"]}" \
       "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
 }
 
