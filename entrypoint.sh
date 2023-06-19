@@ -49,7 +49,7 @@ setUpLabel() {
 }
 
 getNumberOfReviewer() {
-  numReviewers=${#reviewers[@]:-}
+  numReviewers=${#reviewers[@]}
 }
 
 setNumberNeededReviewer
