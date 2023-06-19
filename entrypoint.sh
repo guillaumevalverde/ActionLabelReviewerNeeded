@@ -27,12 +27,12 @@ echo ${listReviewerWithoutSpace}
 
 add_label() {
   curl -sSL \
-    -H "Content-Type: application/json" \
-    -H "${AUTH_HEADER}" \
-    -H "${API_HEADER}" \
-    -X $1 \
-    -d '{"labels":["enhancement"]}' \
-    "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
+      -H "Content-Type: application/json" \
+      -H "${AUTH_HEADER}" \
+      -H "${API_HEADER}" \
+      -X $1 \
+      -d "{\"labels\":[$2]}" \
+      "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
 }
 
 
