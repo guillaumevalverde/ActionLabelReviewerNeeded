@@ -18,6 +18,8 @@ action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$GITHUB_EVENT_PATH")
 
+echo ${reviewers}
+
 listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`                            
 
 add_label() {
@@ -32,9 +34,9 @@ add_label() {
 
 setNumberNeededReviewer() {
 if [[ -z ${MANDATORY_REVIEWER_NUMBER+x} ]]; then
-  numberReviewer=2
+  numberReviewerNeeded=2
 else
-  numberReviewer=$MANDATORY_REVIEWER_NUMBER
+  numberReviewerNeeded=$MANDATORY_REVIEWER_NUMBER
 fi
 }
 
@@ -46,17 +48,23 @@ setUpLabel() {
   fi
 }
 
+getNumberOfReviewer() {
+  numReviewers=${#reviewers[@]:-}
+}
 
 setNumberNeededReviewer
 setUpLabel
+getNumberOfReviewer
+
 echo 'label to post:'$labelToPost
+echo $numReviewers
 echo 'number of reviewer: '$numberReviewer', '${listReviewerWithoutSpace}
 
-if [ "${#reviewers[@]}" -gt "${numberReviewer}" ] | [ "${#reviewers[@]}" -eq "${numberReviewer}" ]; then
-  echo 'Pr has '${#reviewers[@]}' reviewers, and needs '${numberReviewer}'. All good!'
+if [ "${numReviewers}" -gt "${numberReviewerNeeded}" ] | [ "${numReviewers}" -eq "${numberReviewerNeeded}" ]; then
+  echo 'Pr has '${numReviewers}' reviewers, and needs '${numberReviewerNeeded}'. All good!'
   #add_label 'POST' '${labelToPost}'
 else
-  echo 'Pr only has '${#reviewers[@]}' reviewer(s), but needs '${numberReviewer}'!'
+  echo 'Pr only has '${numReviewers}' reviewer(s), but needs '${numberReviewerNeeded}'!'
   #add_label 'DELETE' '${labelToPost}'
 fi
 
