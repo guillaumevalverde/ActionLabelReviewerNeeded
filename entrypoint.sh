@@ -17,6 +17,7 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$GITHUB_EVENT_PATH")
+numReviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")|length' "$GITHUB_EVENT_PATH")
 
 echo ${reviewers}
 
@@ -51,9 +52,9 @@ setUpLabel() {
 }
 
 
-getNumberOfReviewer() {
-  numReviewers="2" #${#reviewers[@]}
-}
+#getNumberOfReviewer() {
+#  numReviewers="2" #${#reviewers[@]}
+#}
 
 setNumberNeededReviewer
 setUpLabel
