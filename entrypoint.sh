@@ -20,12 +20,6 @@ reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$
 
 listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`                            
 
-echo "remove first: "
-echo "${listAssigneesWithoutSpace}"
-echo "then assign: "
-echo "${listReviewerWithoutSpace}"
-
-
 add_label() {
   curl -sSL \
     -H "Content-Type: application/json" \
