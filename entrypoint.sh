@@ -35,31 +35,19 @@ add_label() {
     "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}/labels"
 }
 
-setNumberNeededReviewer() {
+
 if [[ -z ${MANDATORY_REVIEWER_NUMBER+x} ]]; then
   numberReviewerNeeded=2
 else
   numberReviewerNeeded=$MANDATORY_REVIEWER_NUMBER
 fi
-}
 
-setUpLabel() {
-  if [[ -z ${LABEL_FOR_REVIEWER_NEEDED+x} ]]; then
+
+if [[ -z ${LABEL_FOR_REVIEWER_NEEDED+x} ]]; then
      labelToPost="REVIEWER NEEDED"
   else
     labelToPost="${LABEL_FOR_REVIEWER_NEEDED}"
-  fi
-}
-
-
-#getNumberOfReviewer() {
-#  numReviewers="2" #${#reviewers[@]}
-#}
-
-setNumberNeededReviewer
-setUpLabel
-getNumberOfReviewer
-
+fi
 
 echo 'label to post:'$labelToPost
 echo $numReviewers
@@ -67,9 +55,9 @@ echo 'number of reviewer: '$numReviewers', '${listReviewerWithoutSpace}
 
 if [ "${numReviewers}" -gt "${numberReviewerNeeded}" ] | [ "${numReviewers}" -eq "${numberReviewerNeeded}" ]; then
   echo 'Pr has '${numReviewers}' reviewers, and needs '${numberReviewerNeeded}'. All good!'
-  #add_label 'POST' '${labelToPost}'
+  add_label 'POST' '${labelToPost}'
 else
   echo 'Pr only has '${numReviewers}' reviewer(s), but needs '${numberReviewerNeeded}'!'
-  #add_label 'DELETE' '${labelToPost}'
+  add_label 'DELETE' '${labelToPost}'
 fi
 
