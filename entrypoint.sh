@@ -18,7 +18,7 @@ action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 reviewers=$(jq --raw-output '.pull_request.requested_reviewers|map(."login")' "$GITHUB_EVENT_PATH")
 
-listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`                            
+listReviewerWithoutSpace=`echo ${reviewers} | tr -d '[:space:]'`
 
 add_label() {
   curl -sSL \
@@ -47,7 +47,7 @@ setUpLabel() {
 }
 
 getNumberOfReviewer() {
-  numReviewers=${#reviewers[@]}
+  numReviewers="${#reviewers[@]}"
 }
 
 setNumberNeededReviewer
