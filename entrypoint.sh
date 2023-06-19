@@ -32,17 +32,17 @@ add_label() {
 
 setNumberNeededReviewer() {
 if [[ -z "$MANDATORY_REVIEWER_NUMBER" ]]; then
-  local numberReviewer = 2
-elif
-  local numberReviewer = $MANDATORY_REVIEWER_NUMBER
+  local numberReviewer=2
+else
+  local numberReviewer=$MANDATORY_REVIEWER_NUMBER
 fi
 }
 
 setUpLabel() {
 if [[ -z "$LABEL_FOR_REVIEWER_NEEDED" ]]; then
-  local labelToPost = "$LABEL_FOR_REVIEWER_NEEDED"
-elif
-  local labelToPost = "REVIEWER NEEDED"
+  local labelToPost="${LABEL_FOR_REVIEWER_NEEDED}"
+else
+  local labelToPost="REVIEWER NEEDED"
 fi
 }
 
